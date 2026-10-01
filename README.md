@@ -124,7 +124,9 @@ Turn off Launch at Login, quit, and move the app to Trash. Saved images remain. 
 
 Small, inspectable Swift code: [ClipboardBridge](Sources/BridgeCore/ClipboardBridge.swift), [PrivateImageStore](Sources/BridgeCore/PrivateImageStore.swift), [ScreenshotWatcher](Sources/BridgeCore/ScreenshotWatcher.swift), and [native app](Sources/ScreenshotBridge/App.swift).
 
-Tests use **private named pasteboards and temporary files**, never the general clipboard. CI tests on a GitHub-hosted Mac and builds both architectures. See [Architecture](docs/ARCHITECTURE.md), [Testing](docs/TESTING.md), [Contributing](CONTRIBUTING.md), and [Changelog](CHANGELOG.md).
+Tests use **private named pasteboards and temporary files**, never the general clipboard. The CI workflow tests on a GitHub-hosted Mac and builds both architectures. See [Architecture](docs/ARCHITECTURE.md), [Testing](docs/TESTING.md), [Contributing](CONTRIBUTING.md), [Releasing](docs/RELEASING.md), and [Changelog](CHANGELOG.md).
+
+**Initial preview validation:** all 18 tests passed locally on an Apple silicon Mac, and arm64/x86_64 release bundles compiled and passed extracted-bundle signature checks. Intel runtime and the complete manual application checklist remain unverified. Hosted CI could not start for the initial release; its badge is not evidence of a successful build.
 
 This is an early release. Clipboard formats, local file privacy, and file watching have automated coverage. End-to-end compatibility with every app and macOS version is not claimed. Redact identifying paths, images, and logs in bug reports.
 
