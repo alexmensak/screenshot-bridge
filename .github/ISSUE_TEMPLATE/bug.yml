@@ -1,0 +1,23 @@
+name: Bug or compatibility report
+description: Report unexpected clipboard behavior using a harmless synthetic image.
+body:
+  - type: checkboxes
+    attributes:
+      label: Privacy
+      options:
+        - label: I removed personal screenshots, clipboard content, identifying paths, and credentials.
+          required: true
+        - label: This is an ordinary bug, not a sensitive vulnerability.
+          required: true
+  - type: input
+    attributes:
+      label: App version, macOS version, and architecture
+      placeholder: 1.0.0, macOS 26, Apple silicon
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps, expected behavior, and actual behavior
+      description: Include capture shortcut, receiving app/version, paste shortcut, and relevant menu settings.
+    validations:
+      required: true

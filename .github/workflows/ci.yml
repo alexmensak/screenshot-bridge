@@ -1,0 +1,45 @@
+name: Build and test
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  macos:
+    runs-on: macos-15
+    timeout-minutes: 20
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.0.1.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Toolchain
+        run: swift --version
+      - name: Test private clipboards and temporary files
+        run: ./scripts/test.sh
+      - name: Build Apple silicon and Intel
+        run: |
+          ARCH=arm64 ./scripts/build.sh 'dist/arm64/Screenshot Bridge.app'
+          ARCH=x86_64 ./scripts/build.sh 'dist/x86_64/Screenshot Bridge.app'
+      - name: Verify and archive
+        run: |
+          for arch in arm64 x86_64; do
+            codesign --verify --strict "dist/$arch/Screenshot Bridge.app"
+            ditto --norsrc -c -k --keepParent "dist/$arch/Screenshot Bridge.app" "dist/Screenshot-Bridge-$arch.zip"
+          done
+          cd dist
+          shasum -a 256 Screenshot-Bridge-*.zip > SHA256SUMS.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Screenshot-Bridge-builds
+          path: |
+            dist/*.zip
+            dist/SHA256SUMS.txt
+          retention-days: 14

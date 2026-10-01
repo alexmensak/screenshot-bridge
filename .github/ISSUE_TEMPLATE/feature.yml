@@ -1,0 +1,9 @@
+name: Feature request
+description: Describe the workflow or problem you want improved.
+body:
+  - type: textarea
+    attributes:
+      label: Problem and proposed behavior
+      description: Explain the use case and any privacy or permission implications.
+    validations:
+      required: true
